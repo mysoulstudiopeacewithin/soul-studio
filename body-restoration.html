@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Soul Studio — Body Restoration</title>
+  <style>
+    /* local preview override — forces scroll-reveal sections visible */
+    .rev { opacity: 1 !important; transform: translateY(0) !important; }
+    #br-nav, #br-hero-content, #br-hero-mani, #br-scroll { opacity: 1 !important; }
+    #br-hero-content { transform: translateX(-50%) translateY(0) !important; }
+    #br-hero-mani { transform: translateX(-50%) translateY(0) !important; }
+  </style>
+</head>
+<body>
+<!-- SOUL STUDIO — BODY RESTORATION PAGE -->
+<!-- Saved: 2026-05-02 — version 6 — email capture added -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+.site-footer,footer,#footer,.footer-area,#colophon,.wp-site-blocks>footer{display:none!important}
+.elementor-widget-html{padding:0!important;margin:0!important}
+.elementor-section-wrap>.elementor-section:not(:first-child),
+.elementor-section-wrap>.e-container:not(:first-child),
+.elementor-section-wrap>.e-flex:not(:first-child){display:none!important}
+.elementor-page-title,.entry-header,.entry-footer,
+.post-navigation,.comments-area,.widget-area{display:none!important}
+html,body{background:#f0ece0!important;overflow:auto!important;height:auto!important;-webkit-overflow-scrolling:touch;scroll-behavior:auto;}
+
+:root{
+  --ow:#f0ece0;
+  --nb:#1a1814;
+  --gold:#c8a96e;
+  --goldd:rgba(200,169,110,0.55);
+  --ink:#2c2820;
+  --inkl:#5a5048;
+  --blu:#4a9ed6;
+  --vio:#7b6cd4;
+  --f:'Cormorant Garamond',serif;
+}
+
+#br-page{font-family:var(--f);background:var(--ow);color:var(--ink);overflow-x:hidden;margin:0!important;padding:0!important;}
+
+.lbl{font-size:clamp(10px,2.8vw,12px);font-weight:400;letter-spacing:0.35em;text-transform:uppercase;display:inline-block;margin-bottom:20px;background:linear-gradient(to bottom,var(--blu) 0%,var(--vio) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.div-row{display:flex;align-items:center;gap:14px;margin-bottom:32px;}
+.div-line{flex:1;height:0.5px;background:rgba(123,108,212,0.2);}
+.div-dot{width:4px;height:4px;border-radius:50%;background:rgba(123,108,212,0.25);}
+
+#br-nav{position:fixed;top:0;left:0;right:0;z-index:9999;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(10,8,5,0.55),transparent);pointer-events:none;opacity:0;transition:opacity 0.8s ease 1.5s;}
+#br-nav.vis{opacity:1;pointer-events:auto}
+#br-nav-back{font-size:clamp(11px,3vw,13px);font-weight:300;font-style:italic;letter-spacing:0.18em;color:rgba(240,236,224,0.7);text-decoration:none;border-bottom:0.5px solid rgba(240,236,224,0.3);padding-bottom:2px;}
+
+#br-hero{position:relative;width:100%;height:100vh;min-height:600px;overflow:hidden;margin:0!important;padding:0!important;background:var(--nb);}
+#br-hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2s ease;pointer-events:none;}
+#br-hero-video.loaded{opacity:0.78}
+#br-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,8,5,0.65) 0%,rgba(10,8,5,0.45) 35%,rgba(10,8,5,0.5) 60%,rgba(10,8,5,0.88) 100%);}
+
+#br-hero-content{position:absolute;top:8%;left:50%;transform:translateX(-50%);z-index:2;text-align:center;padding:0 32px;width:100%;max-width:480px;opacity:0;transition:opacity 1.2s ease 0.7s,transform 1.2s ease 0.7s;transform:translateX(-50%) translateY(14px);}
+#br-hero-content.vis{opacity:1;transform:translateX(-50%) translateY(0)}
+#br-hero-title{font-size:clamp(58px,15.6vw,94px);font-weight:700;font-style:italic;letter-spacing:0.04em;line-height:1.15;padding-bottom:0.1em;background:linear-gradient(to bottom,var(--blu) 0%,var(--vio) 100%)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;background-clip:text!important;display:inline-block;}
+
+#br-hero-mani{position:absolute;bottom:72px;left:50%;transform:translateX(-50%) translateY(10px);z-index:2;padding:0 32px;text-align:center;width:100%;max-width:480px;opacity:0;transition:opacity 1s ease 1.7s,transform 1s ease 1.7s;}
+#br-hero-mani.vis{opacity:1;transform:translateX(-50%) translateY(0)}
+#br-mani-text{font-size:clamp(20px,5.8vw,26px);font-weight:300;font-style:italic;line-height:1.8;color:rgba(240,236,224,0.92);letter-spacing:0.02em;text-shadow:0 1px 12px rgba(0,0,0,0.7);}
+.mgrad{color:rgba(240,236,224,1);-webkit-text-fill-color:rgba(240,236,224,1);font-weight:400;display:inline;}
+.tm{font-size:0.5em;vertical-align:0.28em;font-style:normal;font-weight:inherit;opacity:0.85;display:inline-block;line-height:1;letter-spacing:0;}
+.tm-h{font-size:0.42em;vertical-align:0.28em;font-style:normal;opacity:0.7;display:inline-block;line-height:1;letter-spacing:0;}
+
+#br-scroll{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;opacity:0;transition:opacity 1s ease 2.3s;}
+#br-scroll.vis{opacity:1}
+.scr-line{width:1px;height:28px;background:linear-gradient(to bottom,transparent,var(--goldd));animation:spulse 2s ease-in-out infinite;}
+@keyframes spulse{0%,100%{opacity:0.35}50%{opacity:1}}
+
+.sec{padding:64px 32px;max-width:480px;margin:0 auto}
+.sec-title{font-size:clamp(28px,7.8vw,38px);font-weight:300;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:20px;letter-spacing:0.02em;}
+.sec-body{font-size:clamp(16px,4.4vw,19px);font-weight:300;line-height:1.82;color:var(--inkl);letter-spacing:0.01em;}
+.sec-body+.sec-body{margin-top:14px}
+
+#br-method-card{background:var(--nb);border-radius:16px;padding:36px 28px;position:relative;overflow:hidden;}
+#br-method-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--goldd),transparent);}
+.mcard-lbl{font-size:clamp(11px,3vw,13px);font-weight:400;letter-spacing:0.35em;text-transform:uppercase;display:block;margin-bottom:14px;background:linear-gradient(to bottom,var(--blu) 0%,var(--vio) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mcard-title{font-size:clamp(24px,6.8vw,32px);font-weight:300;font-style:italic;color:var(--ow);line-height:1.15;margin-bottom:8px;letter-spacing:0.03em;white-space:nowrap;}
+.mcard-sub{font-size:clamp(11px,3vw,13px);font-weight:300;font-style:italic;color:rgba(240,236,224,0.4);letter-spacing:0.1em;margin-bottom:24px;}
+.mcard-body{font-size:clamp(15px,4.2vw,17px);font-weight:300;line-height:1.85;color:rgba(240,236,224,0.75);letter-spacing:0.01em;}
+.mcard-body+.mcard-body{margin-top:14px}
+.gold{color:var(--gold);font-style:italic;font-weight:400}
+
+#br-principles{padding:60px 24px 56px;max-width:480px;margin:0 auto;text-align:center}
+.pr-heading{font-size:clamp(28px,7.8vw,38px);font-weight:300;font-style:italic;color:var(--ink);line-height:1.3;margin-bottom:28px;}
+.pr-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.pr-cell{background:linear-gradient(135deg,rgba(74,158,214,0.06) 0%,rgba(123,108,212,0.1) 100%);border:0.5px solid rgba(123,108,212,0.2);border-left:none;border-radius:4px;padding:16px 16px 18px;text-align:left;position:relative;}
+.pr-cell::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--blu),var(--vio));border-radius:2px 0 0 2px;}
+.pr-cell:nth-child(5){grid-column:1/-1}
+.pr-num{font-size:clamp(9px,2.5vw,10px);font-weight:400;letter-spacing:0.2em;text-transform:uppercase;display:block;margin-bottom:6px;color:rgba(44,40,32,0.35);}
+.pr-name{font-size:clamp(24px,6.8vw,32px);font-weight:400;font-style:italic;margin-bottom:6px;line-height:1.1;color:var(--ink);display:inline-block;}
+.pr-desc{font-size:clamp(15px,4.2vw,17px);font-weight:300;font-style:italic;color:var(--inkl);line-height:1.65;}
+
+#br-cta{padding:60px 32px 88px;max-width:480px;margin:0 auto;text-align:center}
+.cta-title{font-size:clamp(24px,6.8vw,32px);font-weight:300;font-style:italic;color:var(--ink);line-height:1.3;margin-bottom:14px;letter-spacing:0.03em;}
+.cta-sub{font-size:clamp(14px,3.8vw,17px);font-weight:300;line-height:1.75;color:var(--inkl);margin-bottom:32px;}
+.rhythm-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:36px;flex-wrap:wrap;}
+.pill{font-size:clamp(11px,3vw,13px);font-weight:300;font-style:italic;letter-spacing:0.1em;color:var(--inkl);padding:6px 14px;border:0.5px solid rgba(74,158,214,0.3);border-radius:20px;text-decoration:none;display:inline-block;}
+.pill.active{background:linear-gradient(to bottom,var(--blu) 0%,var(--vio) 100%);color:#fff;-webkit-text-fill-color:#fff;border-color:transparent;}
+.rdot{width:3px;height:3px;border-radius:50%;background:linear-gradient(to bottom,var(--blu),var(--vio));opacity:0.5}
+#br-cta-btn{display:inline-block;font-family:var(--f);font-size:clamp(14px,3.8vw,17px);font-weight:400;font-style:italic;letter-spacing:0.14em;color:#fff!important;-webkit-text-fill-color:#fff!important;background:linear-gradient(to bottom,var(--blu) 0%,var(--vio) 100%)!important;border:none;border-radius:8px;padding:12px 40px;cursor:pointer;text-decoration:none;transition:opacity 0.3s;box-shadow:0 4px 20px rgba(74,158,214,0.3);}
+#br-cta-btn:active{opacity:0.85}
+#br-cta-price{margin-top:14px;font-size:clamp(11px,3vw,13px);font-weight:300;font-style:italic;letter-spacing:0.18em;color:var(--inkl);}
+.cta-sec-link{display:inline-block;margin-top:12px;font-family:var(--f);font-size:clamp(15px,4.2vw,17px);font-weight:300;font-style:italic;letter-spacing:0.1em;color:var(--vio);-webkit-text-fill-color:var(--vio);text-decoration:none;border-bottom:0.5px solid rgba(123,108,212,0.35);padding-bottom:2px;transition:opacity 0.2s;}
+.cta-sec-link:hover{opacity:0.7}
+.cta-btns{display:flex;flex-direction:column;align-items:center}
+
+.rev{opacity:0;transform:translateY(20px);will-change:transform;transition:opacity 0.9s ease,transform 0.9s ease}
+.rev.vis{opacity:1;transform:translateY(0)}
+
+#br-email{padding:0 32px 48px;max-width:480px;margin:0 auto;}
+#br-email-card{background:var(--nb);border-radius:12px;padding:28px 24px;position:relative;overflow:hidden;}
+#br-email-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--goldd),transparent);}
+.email-prompt{font-size:clamp(16px,4.4vw,19px);font-weight:300;font-style:italic;line-height:1.7;color:rgba(240,236,224,0.85);margin-bottom:20px;letter-spacing:0.01em;}
+.email-row{display:flex;gap:10px;align-items:stretch;}
+.email-input{flex:1;font-family:var(--f);font-size:clamp(14px,3.8vw,16px);font-weight:300;font-style:italic;letter-spacing:0.05em;color:var(--ow);background:rgba(240,236,224,0.07);border:0.5px solid rgba(123,108,212,0.35);border-radius:6px;padding:10px 14px;outline:none;-webkit-appearance:none;}
+.email-input::placeholder{color:rgba(240,236,224,0.3);}
+.email-input:focus{border-color:rgba(123,108,212,0.6);}
+.email-btn{font-family:var(--f);font-size:clamp(13px,3.5vw,15px);font-weight:400;font-style:italic;letter-spacing:0.12em;color:#fff;background:linear-gradient(to bottom,var(--blu) 0%,var(--vio) 100%);border:none;border-radius:6px;padding:10px 18px;cursor:pointer;white-space:nowrap;transition:opacity 0.2s;}
+.email-btn:active{opacity:0.85}
+.email-note{font-size:clamp(10px,2.8vw,12px);font-weight:300;font-style:italic;letter-spacing:0.12em;color:rgba(240,236,224,0.3);margin-top:12px;}
+</style>
+
+<div id="br-page">
+
+<nav id="br-nav">
+  <a id="br-nav-back" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/">← home</a>
+</nav>
+
+<section id="br-hero">
+  <video id="br-hero-video" data-ss-pillar="body_restoration"
+    src="https://videos.files.wordpress.com/7geU3Cud/body-restoration-video-gif.mp4"
+    autoplay muted loop playsinline webkit-playsinline preload="auto"
+    disablepictureinpicture x-webkit-airplay="deny"
+  ></video>
+  <div id="br-overlay"></div>
+  <div id="br-hero-content">
+    <div id="br-hero-title">Body<br>Restoration</div>
+  </div>
+  <div id="br-hero-mani">
+    <div id="br-mani-text">
+      Our body remembers what the mind overlooks. Releasing held tension through alignment and release is at the centre of Body Restoration at Soul Studio™.
+    </div>
+  </div>
+  <div id="br-scroll"><div class="scr-line"></div></div>
+</section>
+
+<section class="sec rev">
+  <span class="lbl">what it is</span>
+  <div class="div-row"><div class="div-line"></div><div class="div-dot"></div><div class="div-line"></div></div>
+  <h2 class="sec-title">The body holds more than you realise</h2>
+  <p class="sec-body">Every hour at a desk, every stressful conversation, every night of broken sleep — your body keeps the record. Not as memory, but as tension. Held in fascia, compressed in joints, shortened in muscle.</p>
+  <p class="sec-body">Body Restoration works with somatic intelligence. Sustained holds and deliberate alignment create the conditions for tissue to yield, joints to find space, and the nervous system to recognise — for the first time today — that it is safe to release.</p>
+  <p class="sec-body">This is not stretching. It is a conversation with your body, in its own language.</p>
+</section>
+
+<!-- VIDEO SECTION — placeholder until recording is ready -->
+<section class="sec rev" id="br-video-section">
+  <h2 class="sec-title">This is what Body Restoration feels like.</h2>
+  <div class="ss-video-placeholder" style="
+    width:100%;
+    padding-top:56.25%;
+    position:relative;
+    background:var(--nb);
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:24px;
+  ">
+    <div style="
+      position:absolute;inset:0;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      gap:12px;
+    ">
+      <div style="
+        width:56px;height:56px;border-radius:50%;
+        border:1.5px solid rgba(200,169,110,0.4);
+        display:flex;align-items:center;justify-content:center;
+      ">
+        <div style="
+          width:0;height:0;
+          border-top:10px solid transparent;
+          border-bottom:10px solid transparent;
+          border-left:18px solid rgba(200,169,110,0.6);
+          margin-left:4px;
+        "></div>
+      </div>
+      <p style="
+        font-family:'Cormorant Garamond',serif;
+        font-size:clamp(11px,3vw,13px);
+        font-weight:300;font-style:italic;
+        letter-spacing:0.18em;text-transform:uppercase;
+        color:rgba(240,236,224,0.35);
+      ">Practice video — coming soon</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec rev">
+  <div id="br-method-card">
+    <span class="mcard-lbl">the method</span>
+    <div class="mcard-title">Layam by Soul Studio<span class="tm-h">™</span></div>
+    <div class="mcard-sub">breath · movement · stillness</div>
+    <p class="mcard-body">Body Restoration is practised through <span class="gold">Layam by Soul Studio<span class="tm">™</span></span> — Soul Studio's proprietary method. Breath-synced slow movement sequences that work from the outside in: body first, then breath, then mind, then the quiet that follows when all three align.</p>
+    <p class="mcard-body">Every session is built on five principles: Grounding · Alignment · Breath · Surrender · Awareness. In Body Restoration, <span class="gold">Grounding</span> and <span class="gold">Alignment</span> lead — because before the body can release, it must first know where it stands.</p>
+  </div>
+</section>
+
+<section id="br-principles" class="rev">
+  <span class="lbl">five principles</span>
+  <div class="div-row"><div class="div-line"></div><div class="div-dot"></div><div class="div-line"></div></div>
+  <h2 class="pr-heading">The architecture of<br>Layam by Soul Studio<span class="tm-h">™</span></h2>
+  <div class="pr-grid">
+    <div class="pr-cell">
+      <span class="pr-num">01</span>
+      <div class="pr-name">Grounding</div>
+      <div class="pr-desc">Feet, base, earth. The mind must find the body before the body can release.</div>
+    </div>
+    <div class="pr-cell">
+      <span class="pr-num">02</span>
+      <div class="pr-name">Alignment</div>
+      <div class="pr-desc">Skeletal honesty. When the bones stop compensating, held tension begins to yield.</div>
+    </div>
+    <div class="pr-cell">
+      <span class="pr-num">03</span>
+      <div class="pr-name">Breath</div>
+      <div class="pr-desc">The only autonomic function under conscious control. Carries the instruction to release deeper than the mind can reach.</div>
+    </div>
+    <div class="pr-cell">
+      <span class="pr-num">04</span>
+      <div class="pr-name">Surrender</div>
+      <div class="pr-desc">Not giving up — giving over. The body, finally trusted, shows what it already knows.</div>
+    </div>
+    <div class="pr-cell">
+      <span class="pr-num">05</span>
+      <div class="pr-name">Awareness</div>
+      <div class="pr-desc">Not something you do — something already present when the doing stops. Uncovered only by Surrender.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<section id="br-email" class="rev">
+  <div id="br-email-card">
+    <p class="email-prompt">Not ready yet? Leave your email — one session is on us.</p>
+    <div class="email-row">
+      <input class="email-input" type="email" placeholder="your@email.com" autocomplete="email"/>
+      <button class="email-btn" type="button" onclick="brEmailSubmit(this)">Continue</button>
+    </div>
+    <p class="email-note">No sequences. No announcements. One email, when a session opens for you.</p>
+  </div>
+</section>
+
+<section id="br-cta" class="rev">
+  <span class="lbl">begin</span>
+  <h2 class="cta-title">Find Your Daily Rhythm</h2>
+  <p class="cta-sub">Body Restoration is one part of the Daily Rhythm — Soul Studio's complete daily practice of Body, Breath, and Inner work.</p>
+  <div class="rhythm-row">
+    <div class="pill active">Body Restoration</div>
+    <div class="rdot"></div>
+    <a class="pill" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/breath-regulation/">Breath Regulation</a>
+    <div class="rdot"></div>
+    <a class="pill" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/inner-stillness/">Inner Stillness</a>
+  </div>
+  <div class="cta-btns">
+    <a id="br-cta-btn" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/daily-rhythm/">Join Layam</a>
+    <div id="br-cta-price">Layam by Soul Studio™ · ₹500 / month</div>
+    <a class="cta-sec-link" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/">explore all offerings</a>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  document.body.style.overflow='auto';
+  document.documentElement.style.overflow='auto';
+
+  var vid=document.getElementById('br-hero-video');
+  if(vid){
+    vid.addEventListener('canplay',function(){vid.classList.add('loaded');},{once:true});
+    vid.play().catch(function(){});
+  }
+
+  var nav=document.getElementById('br-nav');
+  var hc=document.getElementById('br-hero-content');
+  var mani=document.getElementById('br-hero-mani');
+  var scr=document.getElementById('br-scroll');
+
+  setTimeout(function(){if(nav)nav.classList.add('vis');},400);
+  setTimeout(function(){if(hc)hc.classList.add('vis');},800);
+  setTimeout(function(){if(mani)mani.classList.add('vis');},1700);
+  setTimeout(function(){if(scr)scr.classList.add('vis');},2300);
+
+  var revs=document.querySelectorAll('.rev');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  revs.forEach(function(el){obs.observe(el);});
+
+  function fixHero(){
+    var hero=document.getElementById('br-hero');
+    var content=document.getElementById('br-hero-content');
+    var m=document.getElementById('br-hero-mani');
+    if(!hero||!content||!m)return;
+    var h=window.innerHeight;
+    hero.style.height=h+'px';
+    content.style.position='absolute';
+    content.style.top=Math.round(h*0.22)+'px';
+    content.style.left='50%';
+    content.style.transform='translateX(-50%)';
+    var cb=content.getBoundingClientRect().height+Math.round(h*0.08);
+    var mt=Math.round(h*0.62);
+    m.style.position='absolute';
+    m.style.top=Math.max(cb+20,mt)+'px';
+    m.style.bottom='auto';
+    m.style.left='50%';
+    m.style.transform='translateX(-50%) translateY(0)';
+  }
+  setTimeout(fixHero,100);
+  window.addEventListener('resize',fixHero);
+
+  function killSiblings(){
+    var widget=document.getElementById('br-page');
+    if(!widget)return;
+    var section=widget.closest('.elementor-section,.e-container,.e-flex,.elementor-top-section');
+    if(!section)return;
+    var sibling=section.nextElementSibling;
+    while(sibling){
+      sibling.style.setProperty('display','none','important');
+      sibling=sibling.nextElementSibling;
+    }
+  }
+  killSiblings();
+  setTimeout(killSiblings,800);
+})();
+
+function brEmailSubmit(btn){
+  var input=document.querySelector('#br-email .email-input');
+  if(!input)return;
+  var email=input.value.trim();
+  if(!email||!email.includes('@')){
+    input.style.borderColor='rgba(200,169,110,0.6)';
+    input.focus();
+    return;
+  }
+  input.style.borderColor='';
+  btn.textContent='Done';
+  btn.style.opacity='0.6';
+  btn.disabled=true;
+  input.disabled=true;
+  /* TODO: wire to ConvertKit API — tag: body_restoration */
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,873 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Soul Studio</title>
+</head>
+<body>
+<!-- SOUL STUDIO — GATE + LANDING -->
+<!-- Saved: 2026-05-02 — version 5 — .gold class added for closing line -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap');
+
+  * { -webkit-tap-highlight-color: transparent !important; }
+  #wpadminbar { display: none !important; }
+
+  #ss-gate {
+    display: none;
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 99999; background: #000;
+    align-items: center; justify-content: center;
+    overflow: hidden; cursor: pointer;
+  }
+
+  #ss-gate video {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.5; pointer-events: none;
+  }
+
+  #ss-gate-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.65) 100%);
+  }
+
+  #ss-gate-content {
+    position: relative; z-index: 2; text-align: center;
+    padding: 0 32px; width: 100%; max-width: 420px;
+  }
+
+  .ss-text {
+    font-family: 'Cormorant Garamond', serif;
+    color: #f0ece0; opacity: 0;
+    transition: opacity 1.2s ease; letter-spacing: 0.08em;
+  }
+
+  .ss-text.visible { opacity: 1; }
+  .ss-text.hidden  { opacity: 0; }
+
+  #ss-opening-word {
+    font-size: clamp(50px, 14.4vw, 77px);
+    font-weight: 300; font-style: italic;
+    margin-bottom: 32px; color: #f0ece0;
+  }
+
+  #ss-tap { margin-top: 40px; margin-bottom: 0; display: inline-block; }
+
+  #ss-tap-btn {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(17px, 4.8vw, 20px);
+    font-weight: 400; font-style: italic; letter-spacing: 0.12em;
+    color: #f0ece0;
+    background: linear-gradient(135deg, rgba(200,169,110,0.18) 0%, rgba(200,169,110,0.08) 50%, rgba(200,169,110,0.18) 100%);
+    border: 1px solid rgba(200,169,110,0.45); border-radius: 6px;
+    padding: 14px 36px; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.45), 0 1px 3px rgba(200,169,110,0.2), inset 0 1px 0 rgba(255,255,255,0.07);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #ss-tap-btn:active {
+    background: linear-gradient(135deg, rgba(200,169,110,0.28) 0%, rgba(200,169,110,0.14) 50%, rgba(200,169,110,0.28) 100%);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  #ss-screen-1 { position: relative; }
+
+  #ss-lets-breathe {
+    position: absolute; bottom: -80px; left: 0; width: 100%;
+    font-size: clamp(22px, 6vw, 26px); font-weight: 400; font-style: normal;
+    letter-spacing: 0.28em; text-transform: lowercase;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  #ss-lets-breathe span { display: inline-block; color: rgba(200,169,110,0.55); transition: color 0.4s ease, text-shadow 0.4s ease; }
+  #ss-lets-breathe span.lit { color: rgba(220,195,140,1); text-shadow: 0 0 12px rgba(200,169,110,0.9), 0 0 24px rgba(200,169,110,0.4); }
+
+  @keyframes ss-border-shimmer {
+    0%   { box-shadow: 0 2px 12px rgba(0,0,0,0.45), 0 1px 3px rgba(200,169,110,0.2), inset 0 1px 0 rgba(255,255,255,0.07), 0 0 0px rgba(200,169,110,0); }
+    30%  { box-shadow: 0 2px 12px rgba(0,0,0,0.45), 0 1px 3px rgba(200,169,110,0.2), inset 0 1px 0 rgba(255,255,255,0.07), 0 0 18px rgba(200,169,110,0.8), 0 0 32px rgba(200,169,110,0.4); }
+    100% { box-shadow: 0 2px 12px rgba(0,0,0,0.45), 0 1px 3px rgba(200,169,110,0.2), inset 0 1px 0 rgba(255,255,255,0.07), 0 0 0px rgba(200,169,110,0); }
+  }
+
+  #ss-tap-btn.pressed { animation: ss-border-shimmer 1.2s ease-out forwards; border-color: rgba(200,169,110,0.9); }
+
+  #ss-breath-word {
+    font-size: clamp(34px, 9.6vw, 53px);
+    font-weight: 300; font-style: italic;
+    min-height: 60px; display: flex; align-items: center; justify-content: center;
+    color: #c8a96e;
+  }
+
+  #ss-breath-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 5.2vw, 24px);
+    font-weight: 300; font-style: italic; letter-spacing: 0.12em;
+    color: rgba(240,236,224,0.85);
+    margin-top: 16px; min-height: 28px;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+
+  #ss-breath-sub.visible { opacity: 1; }
+
+  #ss-enter {
+    font-size: clamp(27px, 7.7vw, 41px);
+    font-weight: 300; font-style: italic; letter-spacing: 0.05em;
+    color: #c8a96e; margin-top: 0; display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    border-bottom: 1px solid rgba(200,169,110,0.5);
+    padding-bottom: 6px; cursor: pointer;
+  }
+
+  #ss-enter span { display: inline-block; color: #c8a96e; transition: color 0.4s ease, text-shadow 0.4s ease; }
+  #ss-enter span.lit { color: rgba(220,195,140,1); text-shadow: 0 0 16px rgba(200,169,110,0.9), 0 0 32px rgba(200,169,110,0.4); }
+
+  #ss-timer {
+    display: none;
+    position: fixed; top: 52px; left: 50%; transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 5.2vw, 24px);
+    font-weight: 400; font-style: italic; letter-spacing: 0.18em;
+    color: rgba(200,169,110,1);
+    background: rgba(20,15,10,0.75); border: 1px solid rgba(200,169,110,0.6);
+    border-radius: 32px; padding: 10px 32px;
+    opacity: 0; transition: opacity 1.2s ease;
+    z-index: 999999; white-space: nowrap; pointer-events: none; isolation: isolate;
+  }
+
+  #ss-timer.visible { opacity: 1; }
+
+  #ss-skip {
+    display: none;
+    position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(12px, 3.5vw, 15px);
+    font-weight: 400; font-style: italic; letter-spacing: 0.2em;
+    color: rgba(210,200,182,0.8); cursor: pointer;
+    opacity: 0; transition: opacity 1.2s ease;
+    z-index: 999999; border-bottom: 1px solid rgba(210,200,182,0.45);
+    padding-bottom: 3px; white-space: nowrap;
+  }
+
+  #ss-skip.visible { opacity: 1; }
+  #ss-gate.fade-out { opacity: 0; transition: opacity 1.5s ease; pointer-events: none; }
+
+  #ss-precue {
+    display: none;
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 999998; pointer-events: none;
+  }
+  .ss-precue-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 5.2vw, 26px);
+    font-weight: 300; font-style: italic;
+    letter-spacing: 0.1em;
+    color: rgba(200,169,110,0.95);
+    text-shadow: 0 0 28px rgba(200,169,110,0.5);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; text-align: center;
+    opacity: 0; transition: opacity 0.7s ease;
+  }
+  .ss-precue-line.vis { opacity: 1; }
+
+  #ss-landing {
+    display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden; font-family: 'Cormorant Garamond', serif;
+    z-index: 99998; background: #0a0805;
+  }
+
+  #ss-landing video::-webkit-media-controls,
+  #ss-landing video::-webkit-media-controls-enclosure,
+  #ss-landing video::-webkit-media-controls-panel,
+  #ss-landing video::-webkit-media-controls-play-button,
+  #ss-landing video::-webkit-media-controls-start-playback-button {
+    display: none !important; -webkit-appearance: none; opacity: 0 !important;
+  }
+
+  #ss-landing-video {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.65; z-index: 0; pointer-events: none;
+  }
+
+  #ss-landing-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.25) 65%, rgba(0,0,0,0.7) 100%);
+    z-index: 1;
+  }
+
+  #ss-land-s1 {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2; display: flex; flex-direction: column; align-items: center;
+    padding: 52px 32px 88px;
+    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.85s ease;
+  }
+  #ss-land-s1.exit { transform: translateY(-28%); opacity: 0; pointer-events: none; }
+
+  #ss-landing-header {
+    width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: center;
+    opacity: 0; animation: ss-fade-up 1.2s ease 0.3s forwards;
+    padding-top: 8px;
+  }
+
+  #ss-landing-title {
+    font-size: clamp(30px, 8.5vw, 42px); font-weight: 600; font-style: italic; color: #f0ece0;
+    letter-spacing: 0.08em; text-shadow: 0 0 30px rgba(200,169,110,0.4), 0 2px 12px rgba(0,0,0,0.6);
+  }
+
+  #ss-landing-title sup, .ss-landing-para sup {
+    font-size: 0.45em; vertical-align: super; letter-spacing: 0; opacity: 0.7; font-style: normal;
+  }
+
+  #ss-landing-body {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: 14px; width: 100%; max-width: 480px; padding-bottom: 72px;
+  }
+
+  .ss-landing-para { opacity: 0; transform: translateY(12px); }
+  .ss-landing-para:nth-child(1) { animation: ss-fade-up 1.2s ease 0.7s forwards; }
+  .ss-landing-para:nth-child(2) { animation: ss-fade-up 1.2s ease 1.2s forwards; }
+  .ss-landing-para:nth-child(3) { animation: ss-fade-up 1.2s ease 1.7s forwards; }
+  .ss-landing-para p .gold { color: #c8a96e; }
+
+  .ss-landing-para p {
+    font-size: clamp(17px, 4.8vw, 22px); font-weight: 300; line-height: 1.78;
+    color: #f0ece0; text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+  .ss-landing-para p em { font-style: italic; color: #c8a96e; }
+
+  #ss-land-cue {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-size: clamp(11px, 3vw, 13px); font-weight: 300; font-style: italic;
+    letter-spacing: 0.22em; color: rgba(200,169,110,0.65);
+    cursor: pointer; white-space: nowrap;
+    opacity: 0; animation: ss-fade-up 1.2s ease 2.2s forwards;
+  }
+
+  #ss-land-cue-arrow {
+    width: 1px; height: 22px;
+    background: linear-gradient(to top, rgba(200,169,110,0.7), transparent);
+    animation: ss-cue-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes ss-cue-pulse { 0%,100%{ opacity: 0.4 } 50%{ opacity: 1 } }
+
+  #ss-land-s2 {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 72px 32px 60px;
+    transform: translateY(100%);
+    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #ss-land-s2.enter { transform: translateY(0); }
+
+  #ss-land-back {
+    position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-size: clamp(11px, 3vw, 13px); font-weight: 300; font-style: italic;
+    letter-spacing: 0.22em; color: rgba(200,169,110,0.5);
+    cursor: pointer; white-space: nowrap;
+    opacity: 0; transition: opacity 0.6s ease 1s;
+  }
+  #ss-land-s2.enter #ss-land-back { opacity: 1; }
+  #ss-land-back-arrow {
+    width: 1px; height: 18px;
+    background: linear-gradient(to bottom, rgba(200,169,110,0.7), transparent);
+    animation: ss-cue-pulse 2s ease-in-out infinite;
+  }
+
+  #ss-land-question {
+    font-size: clamp(19px, 5.4vw, 26px); font-weight: 300; font-style: italic;
+    line-height: 1.55; color: #f0ece0; letter-spacing: 0.03em;
+    text-align: center; max-width: 440px; width: 100%;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    margin-bottom: 36px; opacity: 0; transition: opacity 0.8s ease 0.5s;
+  }
+  #ss-land-s2.enter #ss-land-question { opacity: 1; }
+  #ss-land-question em { font-style: italic; color: #c8a96e; }
+
+  #ss-landing-buttons {
+    width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 10px;
+    opacity: 0; transition: opacity 0.8s ease 0.75s;
+  }
+  #ss-land-s2.enter #ss-landing-buttons { opacity: 1; }
+
+  .ss-landing-btn {
+    width: 100%; padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(200,169,110,0.12) 0%, rgba(200,169,110,0.05) 50%, rgba(200,169,110,0.12) 100%);
+    border: 1px solid rgba(200,169,110,0.45); border-radius: 8px; cursor: pointer; text-align: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    text-decoration: none; display: block;
+  }
+
+  .ss-landing-btn:active { transform: scale(0.98); }
+
+  .ss-landing-btn-text {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 5.2vw, 22px); font-weight: 300;
+    font-style: italic; color: #f0ece0; line-height: 1.4; letter-spacing: 0.06em; text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  .ss-landing-btn.ss-active {
+    border-color: rgba(200,169,110,0.85);
+    background: linear-gradient(135deg, rgba(200,169,110,0.2) 0%, rgba(200,169,110,0.08) 50%, rgba(200,169,110,0.2) 100%);
+    box-shadow: 0 0 18px rgba(200,169,110,0.3), 0 2px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  .ss-landing-btn.ss-tapped {
+    border-color: rgba(200,169,110,0.95);
+    background: linear-gradient(135deg, rgba(200,169,110,0.35) 0%, rgba(200,169,110,0.15) 50%, rgba(200,169,110,0.35) 100%);
+    box-shadow: 0 0 28px rgba(200,169,110,0.6), 0 0 8px rgba(200,169,110,0.4), inset 0 1px 0 rgba(255,255,255,0.12);
+    transition: all 0.2s ease;
+  }
+
+  @keyframes ss-fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .gold { color: #c8a96e; font-style: italic; font-weight: 400; }
+  .tm{font-size:0.5em;vertical-align:0.28em;font-style:normal;font-weight:inherit;opacity:0.85;display:inline-block;line-height:1;letter-spacing:0;}
+  .tm-h{font-size:0.42em;vertical-align:0.28em;font-style:normal;opacity:0.7;display:inline-block;line-height:1;letter-spacing:0;}
+</style>
+
+<div id="ss-timer"></div>
+<div id="ss-skip">skip this</div>
+
+<div id="ss-precue">
+  <span class="ss-precue-line" id="ss-precue-1">Put on your headset.</span>
+  <span class="ss-precue-line" id="ss-precue-2">Set everything aside for 2 minutes.</span>
+  <span class="ss-precue-line" id="ss-precue-3">You're about to breathe with intention.</span>
+</div>
+
+<div id="ss-gate">
+  <video src="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/From-Main-Klickpin-CF-Pinterest-Video-4ITqpq0Kj.mp4" autoplay muted loop playsinline preload="auto"></video>
+  <div id="ss-gate-overlay"></div>
+  <div id="ss-gate-content">
+    <div id="ss-screen-1">
+      <div id="ss-opening-word" class="ss-text">Restless?</div>
+      <div id="ss-tap" class="ss-text"><span id="ss-tap-btn">tap to begin</span></div>
+      <div id="ss-lets-breathe" class="ss-text"></div>
+    </div>
+    <div id="ss-screen-2" style="display:none;">
+      <div id="ss-breath-word" class="ss-text"></div>
+      <div id="ss-breath-sub"></div>
+    </div>
+    <div id="ss-screen-3" style="display:none;">
+      <div id="ss-enter" data-ss-gate-enter="true" class="ss-text">Enter Soul Studio</div>
+    </div>
+  </div>
+</div>
+
+<section id="ss-landing">
+  <video id="ss-landing-video" src="https://videos.files.wordpress.com/OukEtrl8/home-banner-video.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture x-webkit-airplay="deny"></video>
+  <div id="ss-landing-overlay"></div>
+
+  <div id="ss-land-s1">
+    <header id="ss-landing-header">
+      <div id="ss-landing-title">Soul Studio<span class="tm-h">™</span></div>
+    </header>
+    <div id="ss-landing-body">
+      <div class="ss-landing-para">
+        <p>At Soul Studio<span class="tm">™</span>, <em>Peace Within</em> is not another target — it's the polestar that guides our everyday lives. Lasting peace reveals itself in the communion of body, breath & mind — with awareness as the synchronising tool.</p>
+      </div>
+      <div class="ss-landing-para">
+        <p>Awareness is built by training attention — deliberately, repeatedly. In the attention-economy today, that raw material is under constant attack: your attention is literally traded by many before you can turn it inward.</p>
+      </div>
+      <div class="ss-landing-para">
+        <p><span class="gold">Let's fight for what was always truly yours — your attention, your awareness & your inner peace.</span></p>
+      </div>
+    </div>
+    <div id="ss-land-cue">
+      <span>continue</span>
+      <div id="ss-land-cue-arrow"></div>
+    </div>
+  </div>
+
+  <div id="ss-land-s2">
+    <div id="ss-land-back"><div id="ss-land-back-arrow"></div><span>back</span></div>
+    <div id="ss-land-question">Tell me — what feels most true to you right now?</div>
+    <div id="ss-landing-buttons">
+      <a class="ss-landing-btn" id="ss-btn-tight" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/body-restoration/">
+        <div class="ss-landing-btn-text">My body won't loosen up</div>
+      </a>
+      <a class="ss-landing-btn" id="ss-btn-anxious" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/breath-regulation/">
+        <div class="ss-landing-btn-text">My mind can't think straight</div>
+      </a>
+      <a class="ss-landing-btn" id="ss-btn-low" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/inner-stillness/">
+        <div class="ss-landing-btn-text">I just can't stop, can't rest</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+
+  var isHome = (
+    window.location.pathname === '/' ||
+    window.location.pathname === '/home/' ||
+    window.location.pathname === '/home' ||
+    document.querySelector('body.home') !== null ||
+    document.querySelector('body.front-page') !== null
+  );
+
+  var href = window.location.href;
+  var productSlugs = ['body-restoration', 'breath-regulation', 'inner-stillness', 'daily-rhythm', 'about'];
+  if (productSlugs.some(function(s) { return href.indexOf(s) !== -1; })) { isHome = false; }
+
+  if (!isHome) {
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    return;
+  }
+
+  document.getElementById('ss-gate').style.display = 'flex';
+  document.getElementById('ss-landing').style.display = 'flex';
+  document.getElementById('ss-timer').style.display = 'block';
+  document.getElementById('ss-skip').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+
+  const gate       = document.getElementById('ss-gate');
+  const screen1    = document.getElementById('ss-screen-1');
+  const screen2    = document.getElementById('ss-screen-2');
+  const screen3    = document.getElementById('ss-screen-3');
+  const breathWord = document.getElementById('ss-breath-word');
+  const breathSub  = document.getElementById('ss-breath-sub');
+  const skipBtn    = document.getElementById('ss-skip');
+
+  const SUBTEXTS = {
+    'be breathless' : 'for a moment',
+    'inhale'        : 'fill your belly',
+    'hold'          : 'retain your breath',
+    'long exhale'   : 'release & let go',
+  };
+
+  const AUDIO_SRC  = 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/Wave-Sound.wav';
+  const BELL_SRC   = 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/tingsha_bell.mp3';
+  const FIRE_SRC   = 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/west_wolf_Campfire.mp3';
+  const SETTLE_SRC = 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/Settle-Down-1.mp3';
+
+  const VOICE_SRCS = {
+    'be breathless' : 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/be-breathless.mp3',
+    'inhale'        : 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/inhale.mp3',
+    'hold'          : 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/hold.mp3',
+    'long exhale'   : 'https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/wp-content/uploads/2026/03/long-exhale.mp3',
+  };
+
+  const MAX_CYCLES = 5;
+  const SKIP_AFTER = 1;
+
+  let breathStarted = false, cycleCount = 0, audioCtx = null, sourceNode = null;
+  let gainNode = null, audioBuffer = null, audioReady = false, bellBuffer = null;
+  let timerInterval = null, settleBuffer = null, voiceBuffers = {};
+  let ambientConvolver = null, ambientWetGain = null;
+  let activeVoiceNodes = [];
+  let voicesStopped = false;
+
+  function loadBell() {
+    if (!audioCtx) return;
+    fetch(BELL_SRC).then(r => r.arrayBuffer()).then(buf => audioCtx.decodeAudioData(buf, d => { bellBuffer = d; })).catch(() => {});
+  }
+
+  function loadSettle() {
+    if (!audioCtx) return;
+    fetch(SETTLE_SRC).then(r => r.arrayBuffer()).then(buf => audioCtx.decodeAudioData(buf, d => { settleBuffer = d; })).catch(() => {});
+  }
+
+  function loadVoices() {
+    if (!audioCtx) return;
+    Object.entries(VOICE_SRCS).forEach(([key, src]) => {
+      fetch(src).then(r => r.arrayBuffer()).then(buf => audioCtx.decodeAudioData(buf, d => { voiceBuffers[key] = d; })).catch(() => {});
+    });
+  }
+
+  function playVoice(key) {
+    if (!audioCtx || !voiceBuffers[key] || voicesStopped) return;
+    try {
+      gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.2);
+      const convolver = audioCtx.createConvolver();
+      const reverbLen = audioCtx.sampleRate * 3.0;
+      const reverbBuf = audioCtx.createBuffer(2, reverbLen, audioCtx.sampleRate);
+      for (let ch = 0; ch < 2; ch++) {
+        const data = reverbBuf.getChannelData(ch);
+        for (let i = 0; i < reverbLen; i++) { data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 2.0); }
+      }
+      convolver.buffer = reverbBuf;
+      const isShort = (key === 'hold' || key === 'long exhale');
+      const voiceGain = isShort ? 5.5 : 3.2;
+      const dryGain = audioCtx.createGain();
+      const wetGain = audioCtx.createGain();
+      dryGain.gain.setValueAtTime(voiceGain, audioCtx.currentTime);
+      wetGain.gain.setValueAtTime(0.9, audioCtx.currentTime);
+      const vg = audioCtx.createGain();
+      vg.gain.setValueAtTime(1.0, audioCtx.currentTime);
+      vg.connect(dryGain); vg.connect(convolver);
+      convolver.connect(wetGain);
+      dryGain.connect(audioCtx.destination);
+      wetGain.connect(audioCtx.destination);
+      const v = audioCtx.createBufferSource();
+      v.buffer = voiceBuffers[key]; v.loop = false; v.connect(vg);
+      activeVoiceNodes.push(v);
+      v.onended = function() {
+        activeVoiceNodes = activeVoiceNodes.filter(n => n !== v);
+        setTimeout(function() {
+          if (gainNode && audioCtx && !voicesStopped) {
+            gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(1.5, audioCtx.currentTime + 1.2);
+          }
+        }, 300);
+      };
+      v.start(0);
+    } catch(e) {}
+  }
+
+  function stopAllVoices() {
+    voicesStopped = true;
+    activeVoiceNodes.forEach(v => {
+      try { v.onended = null; v.stop(); } catch(e) {}
+    });
+    activeVoiceNodes = [];
+    if (gainNode && audioCtx) {
+      gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    }
+  }
+
+  function playSettle(cb) {
+    if (!audioCtx || !settleBuffer) { setTimeout(cb, 5000); return; }
+    try {
+      const sg = audioCtx.createGain();
+      sg.gain.setValueAtTime(1.2, audioCtx.currentTime);
+      sg.connect(audioCtx.destination);
+      const s = audioCtx.createBufferSource();
+      s.buffer = settleBuffer; s.loop = false; s.connect(sg);
+      s.onended = cb; s.start(0);
+    } catch(e) { setTimeout(cb, 5000); }
+  }
+
+  function makeReverbBuffer(ctx, duration) {
+    const len = ctx.sampleRate * duration;
+    const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const data = buf.getChannelData(ch);
+      for (let i = 0; i < len; i++) { data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 1.8); }
+    }
+    return buf;
+  }
+
+  function setupAudio() {
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      gainNode = audioCtx.createGain();
+      gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gainNode.connect(audioCtx.destination);
+      fetch(AUDIO_SRC).then(r => r.arrayBuffer()).then(buf => audioCtx.decodeAudioData(buf, d => { audioBuffer = d; audioReady = true; playLoop(); })).catch(() => { audioReady = true; });
+    } catch(e) { audioReady = true; }
+  }
+
+  function setupAmbientReverb() {
+    if (!audioCtx || ambientConvolver) return;
+    try {
+      ambientConvolver = audioCtx.createConvolver();
+      ambientConvolver.buffer = makeReverbBuffer(audioCtx, 3.5);
+      ambientWetGain = audioCtx.createGain();
+      ambientWetGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+      gainNode.connect(ambientConvolver);
+      ambientConvolver.connect(ambientWetGain);
+      ambientWetGain.connect(audioCtx.destination);
+    } catch(e) {}
+  }
+
+  async function playLoop() {
+    if (!audioBuffer || !audioCtx) return;
+    if (audioCtx.state === 'suspended') { await audioCtx.resume(); }
+    if (sourceNode) { try { sourceNode.disconnect(); } catch(e){} }
+    sourceNode = audioCtx.createBufferSource();
+    sourceNode.buffer = audioBuffer; sourceNode.loop = true;
+    sourceNode.connect(gainNode); sourceNode.start(0);
+  }
+
+  function fadeVolume(to, duration) {
+    if (!gainNode || !audioCtx) return;
+    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(to, audioCtx.currentTime + duration);
+  }
+
+  function ringBell() {
+    try {
+      if (bellBuffer && audioCtx) {
+        const bg = audioCtx.createGain(); bg.gain.setValueAtTime(0.5, audioCtx.currentTime); bg.connect(audioCtx.destination);
+        const b = audioCtx.createBufferSource(); b.buffer = bellBuffer; b.loop = false; b.connect(bg); b.start(0);
+      } else { const a = new Audio(BELL_SRC); a.volume = 1.0; a.play().catch(() => {}); }
+    } catch(e) {}
+  }
+
+  function startFire() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const gn = ctx.createGain(); gn.gain.setValueAtTime(0.001, ctx.currentTime); gn.connect(ctx.destination);
+      fetch(FIRE_SRC).then(r => r.arrayBuffer()).then(buf => ctx.decodeAudioData(buf, d => {
+        const s = ctx.createBufferSource(); s.buffer = d; s.loop = true; s.connect(gn); s.start(0);
+        gn.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 2.0);
+      })).catch(() => {});
+    } catch(e) {}
+  }
+
+  function stopAudio() {
+    fadeVolume(0, 1.5);
+    setTimeout(() => { try { sourceNode.stop(); } catch(e) {} }, 1600);
+  }
+
+  function showBreathWord(text, cb, duration) {
+    duration = duration || 5000;
+    breathWord.textContent = text;
+    breathWord.classList.remove('visible', 'hidden');
+    void breathWord.offsetWidth;
+    breathWord.classList.add('visible');
+    breathSub.classList.remove('visible');
+    breathSub.textContent = SUBTEXTS[text] || '';
+    const voiceDelay = (text === 'be breathless' && cycleCount === 1) ? 800 : 0;
+    setTimeout(() => { playVoice(text); }, voiceDelay);
+    setTimeout(() => { breathSub.classList.add('visible'); }, 400);
+    setTimeout(() => {
+      breathWord.classList.remove('visible'); breathWord.classList.add('hidden');
+      breathSub.classList.remove('visible');
+      setTimeout(cb, 1000);
+    }, duration);
+  }
+
+  function exitGate() {
+    stopAllVoices(); stopAudio();
+    gate.classList.add('fade-out');
+    setTimeout(() => {
+      gate.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+      startFire(); initLanding();
+    }, 1500);
+  }
+
+  function startTimer() {
+    const el = document.getElementById('ss-timer');
+    if (!el) return;
+    const total = 120; let remaining = total;
+    const fmt = n => Math.floor(n/60) + ':' + String(n%60).padStart(2,'0');
+    el.textContent = fmt(total); el.classList.add('visible');
+    timerInterval = setInterval(() => {
+      remaining--;
+      const t = document.getElementById('ss-timer');
+      if (!t) { clearInterval(timerInterval); return; }
+      if (remaining <= 0) { t.textContent = '0:00'; clearInterval(timerInterval); return; }
+      t.textContent = fmt(remaining);
+    }, 1000);
+  }
+
+  function hideTimer() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    const el = document.getElementById('ss-timer');
+    if (el) el.classList.remove('visible');
+  }
+
+  function runCycle() {
+    if (cycleCount >= MAX_CYCLES) { endGate(); return; }
+    cycleCount++;
+    if (cycleCount === SKIP_AFTER + 1) { skipBtn.classList.add('visible'); }
+    if (cycleCount === 1) ringBell();
+    showBreathWord('be breathless', () => {
+      showBreathWord('inhale', () => {
+        fadeVolume(1.5, 1.5);
+        showBreathWord('hold', () => {
+          fadeVolume(1.5, 1.0);
+          showBreathWord('long exhale', () => { runCycle(); }, 8000);
+        }, 3000);
+      }, 5000);
+    }, 3000);
+  }
+
+  function endGate() {
+    stopAudio(); hideTimer();
+    setTimeout(() => { ringBell(); }, 400);
+    setTimeout(() => { showEnterScreen(); }, 2200);
+  }
+
+  skipBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    stopAllVoices(); stopAudio(); hideTimer();
+    screen2.style.display = 'none';
+    screen1.style.display = 'none';
+    showEnterScreen();
+  });
+
+  function runPrecue(cb) {
+    const precue = document.getElementById('ss-precue');
+    const l1 = document.getElementById('ss-precue-1');
+    const l2 = document.getElementById('ss-precue-2');
+    const l3 = document.getElementById('ss-precue-3');
+    if (!precue) { cb(); return; }
+    precue.style.display = 'block';
+    setTimeout(() => { l1.classList.add('vis'); },    100);
+    setTimeout(() => { l1.classList.remove('vis'); }, 1900);
+    setTimeout(() => { l2.classList.add('vis'); },    2500);
+    setTimeout(() => { l2.classList.remove('vis'); }, 4300);
+    setTimeout(() => { l3.classList.add('vis'); },    4900);
+    setTimeout(() => { l3.classList.remove('vis'); }, 6700);
+    setTimeout(() => { precue.style.display = 'none'; cb(); }, 7400);
+  }
+
+  function startBreath() {
+    document.getElementById('ss-opening-word').classList.remove('visible');
+    document.getElementById('ss-tap').classList.remove('visible');
+    document.getElementById('ss-lets-breathe').classList.remove('visible');
+    fadeVolume(1.5, 0.8);
+    setTimeout(() => {
+      runPrecue(function() {
+        playSettle(function() {
+          screen1.style.display = 'none';
+          screen2.style.display = 'block';
+          startTimer();
+          setTimeout(() => { runCycle(); }, 600);
+        });
+      });
+    }, 900);
+  }
+
+  gate.addEventListener('click', function() {
+    if (screen3.style.display === 'block') { exitGate(); return; }
+    if (breathStarted) return;
+    breathStarted = true;
+    const tapBtn = document.getElementById('ss-tap-btn');
+    if (tapBtn) tapBtn.classList.add('pressed');
+    if (audioCtx) {
+      audioCtx.resume().then(() => {
+        setupAmbientReverb();
+        loadBell(); loadSettle(); loadVoices();
+        if (!sourceNode) playLoop();
+        fadeVolume(1.5, 1.0);
+        waitForAudioThenStart();
+      });
+    } else { startBreath(); }
+  });
+
+  function waitForAudioThenStart() {
+    if (audioReady) { startBreath(); return; }
+    let attempts = 0;
+    const check = setInterval(() => {
+      attempts++;
+      if (audioReady || attempts > 30) { clearInterval(check); startBreath(); }
+    }, 100);
+  }
+
+  function runLetterShimmer(el) {
+    const letters = Array.from(el.querySelectorAll('span')).filter(s => s.textContent.trim());
+    let i = 0;
+    function step() {
+      if (i < letters.length) {
+        letters[i].classList.add('lit');
+        setTimeout(() => letters[i].classList.remove('lit'), 600);
+        i++; setTimeout(step, 80);
+      } else { setTimeout(() => runLetterShimmer(el), 1800); }
+    }
+    step();
+  }
+
+  function initLetsBreathe() {
+    const el = document.getElementById('ss-lets-breathe');
+    if (!el) return;
+    const text = "let's breathe";
+    el.innerHTML = text.split('').map(ch =>
+      ch === ' ' ? '<span style="display:inline-block;width:0.28em;"> </span>' : `<span>${ch}</span>`
+    ).join('');
+    runLetterShimmer(el);
+  }
+
+  function initEnterShimmer() {
+    const el = document.getElementById('ss-enter');
+    const text = 'Enter Soul Studio™';
+    el.innerHTML = text.split('').map(ch =>
+      ch === ' ' ? '<span style="display:inline-block;width:0.28em;"> </span>'
+      : ch === '™' ? `<span style="font-size:0.5em;vertical-align:super;">${ch}</span>`
+                   : `<span>${ch}</span>`
+    ).join('');
+    runLetterShimmer(el);
+  }
+
+  function showEnterScreen() {
+    screen2.style.display = 'none'; skipBtn.classList.remove('visible');
+    screen3.style.display = 'block';
+    const enterEl = document.getElementById('ss-enter');
+    enterEl.classList.add('visible'); initEnterShimmer();
+  }
+
+  function initLanding() {
+    const now = new Date();
+    const ist = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 5.5 * 3600000);
+    const hour = ist.getHours();
+    let activeBtn;
+    if (hour >= 5 && hour < 11) activeBtn = document.getElementById('ss-btn-tight');
+    else if (hour >= 11 && hour < 17) activeBtn = document.getElementById('ss-btn-anxious');
+    else activeBtn = document.getElementById('ss-btn-low');
+    if (activeBtn) activeBtn.classList.add('ss-active');
+    document.querySelectorAll('.ss-landing-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        this.classList.add('ss-tapped');
+        setTimeout(() => { window.location.assign(href); }, 400);
+      });
+    });
+    const s1 = document.getElementById('ss-land-s1');
+    const s2 = document.getElementById('ss-land-s2');
+    const cue = document.getElementById('ss-land-cue');
+    const backBtn = document.getElementById('ss-land-back');
+    let advanced = false;
+    function advanceToS2() {
+      if (advanced) return;
+      advanced = true;
+      s1.classList.add('exit');
+      setTimeout(() => { s2.classList.add('enter'); }, 80);
+    }
+    function backToS1() {
+      if (!advanced) return;
+      advanced = false;
+      s2.classList.remove('enter');
+      setTimeout(() => { s1.classList.remove('exit'); }, 80);
+    }
+    if (cue) cue.addEventListener('click', advanceToS2);
+    if (backBtn) backBtn.addEventListener('click', backToS1);
+    const landing = document.getElementById('ss-landing');
+    let touchStartY = 0;
+    landing.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; }, { passive: true });
+    landing.addEventListener('touchend', function(e) {
+      const dy = touchStartY - e.changedTouches[0].clientY;
+      if (!advanced && dy > 40) advanceToS2();
+      else if (advanced && dy < -40) backToS1();
+    }, { passive: true });
+  }
+
+  setupAudio();
+  setTimeout(() => { document.getElementById('ss-opening-word').classList.add('visible'); }, 600);
+  setTimeout(() => { document.getElementById('ss-tap').classList.add('visible'); }, 1800);
+  setTimeout(() => {
+    const lb = document.getElementById('ss-lets-breathe');
+    if (lb) lb.classList.add('visible');
+    initLetsBreathe();
+  }, 2800);
+
+})();
+</script>
+
+</body>
+</html>
