@@ -144,11 +144,12 @@
     display: none;
     position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(12px, 3.5vw, 15px);
+    font-size: clamp(14px, 4vw, 17px);
     font-weight: 400; font-style: italic; letter-spacing: 0.2em;
-    color: rgba(210,200,182,0.8); cursor: pointer;
+    color: rgba(200,169,110,1); cursor: pointer;
+    text-shadow: 0 0 16px rgba(200,169,110,0.35);
     opacity: 0; transition: opacity 1.2s ease;
-    z-index: 999999; border-bottom: 1px solid rgba(210,200,182,0.45);
+    z-index: 999999; border-bottom: 1px solid rgba(200,169,110,0.6);
     padding-bottom: 3px; white-space: nowrap;
   }
 
@@ -522,6 +523,7 @@
   const breathWord = document.getElementById('ss-breath-word');
   const breathSub  = document.getElementById('ss-breath-sub');
   const skipBtn    = document.getElementById('ss-skip');
+  if (sessionStorage.getItem('ss_gate_seen')) { skipBtn.classList.add('visible'); }
 
   const SUBTEXTS = {
     'be breathless' : 'for a moment',
@@ -575,23 +577,58 @@
       gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
       gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
       gainNode.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.2);
+
+      // Longer, softer reverb tail — more spacious, less clinical
       const convolver = audioCtx.createConvolver();
-      const reverbLen = audioCtx.sampleRate * 3.0;
+      const reverbLen = audioCtx.sampleRate * 4.5;
       const reverbBuf = audioCtx.createBuffer(2, reverbLen, audioCtx.sampleRate);
       for (let ch = 0; ch < 2; ch++) {
         const data = reverbBuf.getChannelData(ch);
-        for (let i = 0; i < reverbLen; i++) { data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 2.0); }
+        for (let i = 0; i < reverbLen; i++) { data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 1.4); }
       }
       convolver.buffer = reverbBuf;
+
+      // Warmth: boost low-mids, roll off harsh highs
+      const warmFilter = audioCtx.createBiquadFilter();
+      warmFilter.type = 'lowshelf';
+      warmFilter.frequency.setValueAtTime(400, audioCtx.currentTime);
+      warmFilter.gain.setValueAtTime(4, audioCtx.currentTime);
+      const highCut = audioCtx.createBiquadFilter();
+      highCut.type = 'lowpass';
+      highCut.frequency.setValueAtTime(7000, audioCtx.currentTime);
+      highCut.Q.setValueAtTime(0.707, audioCtx.currentTime);
+
+      // Compressor — levels out dynamics across phrases and within each phrase
+      const compressor = audioCtx.createDynamicsCompressor();
+      compressor.threshold.setValueAtTime(-14, audioCtx.currentTime);
+      compressor.knee.setValueAtTime(10, audioCtx.currentTime);
+      compressor.ratio.setValueAtTime(4, audioCtx.currentTime);
+      compressor.attack.setValueAtTime(0.005, audioCtx.currentTime);
+      compressor.release.setValueAtTime(0.25, audioCtx.currentTime);
+
       const isShort = (key === 'hold' || key === 'long exhale');
       const voiceGain = isShort ? 5.5 : 3.2;
-      const dryGain = audioCtx.createGain(); const wetGain = audioCtx.createGain();
+      const dryGain = audioCtx.createGain();
+      const wetGain = audioCtx.createGain();
       dryGain.gain.setValueAtTime(voiceGain, audioCtx.currentTime);
-      wetGain.gain.setValueAtTime(0.9, audioCtx.currentTime);
-      const vg = audioCtx.createGain(); vg.gain.setValueAtTime(1.0, audioCtx.currentTime);
-      vg.connect(dryGain); vg.connect(convolver);
+      wetGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+
+      // Fade-in envelope to avoid hard entry
+      const vg = audioCtx.createGain();
+      vg.gain.setValueAtTime(0, audioCtx.currentTime);
+      vg.gain.linearRampToValueAtTime(1.0, audioCtx.currentTime + 0.08);
+
+      // Chain: source → vg → warmFilter → highCut → dryGain → compressor → dest
+      //                                            → convolver → wetGain → dest
+      vg.connect(warmFilter);
+      warmFilter.connect(highCut);
+      highCut.connect(dryGain);
+      highCut.connect(convolver);
+      dryGain.connect(compressor);
+      compressor.connect(audioCtx.destination);
       convolver.connect(wetGain);
-      dryGain.connect(audioCtx.destination); wetGain.connect(audioCtx.destination);
+      wetGain.connect(audioCtx.destination);
+
       const v = audioCtx.createBufferSource();
       v.buffer = voiceBuffers[key]; v.loop = false; v.connect(vg);
       activeVoiceNodes.push(v);
@@ -766,6 +803,7 @@
   }
 
   function endGate() {
+    sessionStorage.setItem('ss_gate_seen', '1');
     stopAudio(); hideTimer();
     setTimeout(() => { ringBell(); }, 400);
     setTimeout(() => { showEnterScreen(); }, 2200);
@@ -773,6 +811,7 @@
 
   skipBtn.addEventListener('click', function(e) {
     e.stopPropagation();
+    sessionStorage.setItem('ss_gate_seen', '1');
     stopAllVoices(); stopAudio(); hideTimer();
     screen2.style.display = 'none'; screen1.style.display = 'none';
     showEnterScreen();
