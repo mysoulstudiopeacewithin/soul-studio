@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 </head>
 <body>
 <!-- SOUL STUDIO — GATE + LANDING -->
-<!-- Saved: 2026-05-02 — version 5 — .gold class added for closing line -->
+<!-- Saved: 2026-05-21 — version 1 — Bubble orbit landing (Pulse concept, Resolution A) -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap');
 
@@ -164,12 +164,10 @@
   .ss-precue-line {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(18px, 5.2vw, 26px);
-    font-weight: 300; font-style: italic;
-    letter-spacing: 0.1em;
+    font-weight: 300; font-style: italic; letter-spacing: 0.1em;
     color: rgba(200,169,110,0.95);
     text-shadow: 0 0 28px rgba(200,169,110,0.5);
-    position: absolute;
-    top: 50%; left: 50%;
+    position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 80%; text-align: center;
     opacity: 0; transition: opacity 0.7s ease;
@@ -202,6 +200,7 @@
     z-index: 1;
   }
 
+  /* ── ss-land-s1 (unchanged) ── */
   #ss-land-s1 {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 2; display: flex; flex-direction: column; align-items: center;
@@ -212,8 +211,7 @@
 
   #ss-landing-header {
     width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: center;
-    opacity: 0; animation: ss-fade-up 1.2s ease 0.3s forwards;
-    padding-top: 8px;
+    opacity: 0; animation: ss-fade-up 1.2s ease 0.3s forwards; padding-top: 8px;
   }
 
   #ss-landing-title {
@@ -259,10 +257,10 @@
 
   @keyframes ss-cue-pulse { 0%,100%{ opacity: 0.4 } 50%{ opacity: 1 } }
 
+  /* ── ss-land-s2 — Bubble orbit (Pulse / Resolution A) ── */
   #ss-land-s2 {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 72px 32px 60px;
+    z-index: 2;
     transform: translateY(100%);
     transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -274,7 +272,7 @@
     font-size: clamp(11px, 3vw, 13px); font-weight: 300; font-style: italic;
     letter-spacing: 0.22em; color: rgba(200,169,110,0.5);
     cursor: pointer; white-space: nowrap;
-    opacity: 0; transition: opacity 0.6s ease 1s;
+    opacity: 0; transition: opacity 0.6s ease 1s; z-index: 20;
   }
   #ss-land-s2.enter #ss-land-back { opacity: 1; }
   #ss-land-back-arrow {
@@ -283,50 +281,117 @@
     animation: ss-cue-pulse 2s ease-in-out infinite;
   }
 
-  #ss-land-question {
-    font-size: clamp(19px, 5.4vw, 26px); font-weight: 300; font-style: italic;
-    line-height: 1.55; color: #f0ece0; letter-spacing: 0.03em;
-    text-align: center; max-width: 440px; width: 100%;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
-    margin-bottom: 36px; opacity: 0; transition: opacity 0.8s ease 0.5s;
-  }
-  #ss-land-s2.enter #ss-land-question { opacity: 1; }
-  #ss-land-question em { font-style: italic; color: #c8a96e; }
-
-  #ss-landing-buttons {
-    width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 10px;
-    opacity: 0; transition: opacity 0.8s ease 0.75s;
-  }
-  #ss-land-s2.enter #ss-landing-buttons { opacity: 1; }
-
-  .ss-landing-btn {
-    width: 100%; padding: 16px 20px;
-    background: linear-gradient(135deg, rgba(200,169,110,0.12) 0%, rgba(200,169,110,0.05) 50%, rgba(200,169,110,0.12) 100%);
-    border: 1px solid rgba(200,169,110,0.45); border-radius: 8px; cursor: pointer; text-align: center;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
-    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-    text-decoration: none; display: block;
+  #ss-spokes {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 5; overflow: visible;
   }
 
-  .ss-landing-btn:active { transform: scale(0.98); }
-
-  .ss-landing-btn-text {
-    font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 5.2vw, 22px); font-weight: 300;
-    font-style: italic; color: #f0ece0; line-height: 1.4; letter-spacing: 0.06em; text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  /* Center bubble */
+  #ss-center-bubble {
+    position: absolute;
+    width: clamp(96px, 26vw, 112px); height: clamp(96px, 26vw, 112px);
+    border-radius: 50%;
+    border: 1px solid rgba(200,169,110,0.55);
+    background: radial-gradient(circle at 38% 32%, rgba(200,169,110,0.1) 0%, rgba(10,8,5,0.55) 100%);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10; cursor: default;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: opacity 0.7s ease, transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 32px rgba(200,169,110,0.08);
   }
 
-  .ss-landing-btn.ss-active {
-    border-color: rgba(200,169,110,0.85);
-    background: linear-gradient(135deg, rgba(200,169,110,0.2) 0%, rgba(200,169,110,0.08) 50%, rgba(200,169,110,0.2) 100%);
-    box-shadow: 0 0 18px rgba(200,169,110,0.3), 0 2px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+  #ss-center-bubble.alive {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation: ss-center-pulse 3.5s ease-in-out 0.8s infinite;
   }
 
-  .ss-landing-btn.ss-tapped {
+  @keyframes ss-center-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0.28), 0 0 24px rgba(200,169,110,0.1); }
+    55%       { box-shadow: 0 0 0 22px rgba(200,169,110,0), 0 0 42px rgba(200,169,110,0.28); }
+  }
+
+  #ss-center-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(11px, 3vw, 14px);
+    font-weight: 400; font-style: italic; letter-spacing: 0.1em;
+    color: #f0ece0; text-align: center; line-height: 1.4;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    padding: 0 10px; user-select: none;
+  }
+
+  /* PROPOSED copy — needs approval */
+  #ss-center-story {
+    position: absolute;
+    top: calc(100% + 11px); left: 50%; transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(9px, 2.4vw, 11px);
+    font-weight: 300; font-style: italic; letter-spacing: 0.18em;
+    color: rgba(200,169,110,0.62);
+    opacity: 0; transition: opacity 0.7s ease 0.5s;
+    pointer-events: none;
+  }
+  #ss-center-bubble.alive #ss-center-story { opacity: 1; }
+
+  /* Product bubbles */
+  .ss-prod-bubble {
+    position: absolute;
+    width: clamp(76px, 21vw, 88px); height: clamp(76px, 21vw, 88px);
+    border-radius: 50%;
+    border: 1px solid rgba(200,169,110,0.35);
+    background: radial-gradient(circle at 38% 32%, rgba(200,169,110,0.07) 0%, rgba(10,8,5,0.42) 100%);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 10; text-decoration: none;
+    transform: translate(-50%, -50%) scale(0); opacity: 0;
+    transition: opacity 0.5s ease,
+                transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .ss-prod-bubble.revealed { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  .ss-prod-bubble.ss-active {
+    border-color: rgba(200,169,110,0.65);
+    box-shadow: 0 0 16px rgba(200,169,110,0.18);
+  }
+  .ss-prod-bubble:hover {
+    border-color: rgba(200,169,110,0.88);
+    box-shadow: 0 0 26px rgba(200,169,110,0.38), inset 0 0 12px rgba(200,169,110,0.07);
+  }
+  .ss-prod-bubble.ss-tapped {
     border-color: rgba(200,169,110,0.95);
-    background: linear-gradient(135deg, rgba(200,169,110,0.35) 0%, rgba(200,169,110,0.15) 50%, rgba(200,169,110,0.35) 100%);
-    box-shadow: 0 0 28px rgba(200,169,110,0.6), 0 0 8px rgba(200,169,110,0.4), inset 0 1px 0 rgba(255,255,255,0.12);
-    transition: all 0.2s ease;
+    box-shadow: 0 0 34px rgba(200,169,110,0.55), inset 0 0 14px rgba(200,169,110,0.1);
+    transform: translate(-50%, -50%) scale(1.06);
   }
+
+  .ss-bubble-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(9px, 2.5vw, 11px);
+    font-weight: 300; font-style: italic; letter-spacing: 0.06em;
+    color: rgba(240,236,224,0.9); text-align: center; line-height: 1.45;
+    padding: 0 8px; user-select: none;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  .ss-bubble-tag {
+    position: absolute;
+    top: calc(100% + 9px); left: 50%; transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(8px, 2.2vw, 10px);
+    font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(200,169,110,0.5);
+    opacity: 0; transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .ss-prod-bubble:hover .ss-bubble-tag { opacity: 1; }
+  @media (hover: none) { .ss-bubble-tag { opacity: 0.5; } }
+
+  /* Bubble positions: center of each bubble offset from screen center */
+  #ss-bb-body   { top: calc(50% - clamp(118px, 19vh, 146px)); left: 50%; }
+  #ss-bb-breath { top: calc(50% + clamp(70px, 11vh, 94px));   left: calc(50% + clamp(98px, 15vw, 130px)); }
+  #ss-bb-inner  { top: calc(50% + clamp(70px, 11vh, 94px));   left: calc(50% - clamp(98px, 15vw, 130px)); }
 
   @keyframes ss-fade-up {
     from { opacity: 0; transform: translateY(12px); }
@@ -391,20 +456,34 @@
     </div>
   </div>
 
+  <!-- ss-land-s2: Bubble orbit -->
   <div id="ss-land-s2">
-    <div id="ss-land-back"><div id="ss-land-back-arrow"></div><span>back</span></div>
-    <div id="ss-land-question">Tell me — what feels most true to you right now?</div>
-    <div id="ss-landing-buttons">
-      <a class="ss-landing-btn" id="ss-btn-tight" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/body-restoration/">
-        <div class="ss-landing-btn-text">My body won't loosen up</div>
-      </a>
-      <a class="ss-landing-btn" id="ss-btn-anxious" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/breath-regulation/">
-        <div class="ss-landing-btn-text">My mind can't think straight</div>
-      </a>
-      <a class="ss-landing-btn" id="ss-btn-low" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/inner-stillness/">
-        <div class="ss-landing-btn-text">I just can't stop, can't rest</div>
-      </a>
+    <div id="ss-land-back">
+      <div id="ss-land-back-arrow"></div>
+      <span>back</span>
     </div>
+
+    <svg id="ss-spokes" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <div id="ss-center-bubble">
+      <span id="ss-center-name">Soul Studio<span class="tm-h">™</span></span>
+      <span id="ss-center-story">Daily Rhythm for Peace Within</span>
+    </div>
+
+    <a class="ss-prod-bubble" id="ss-bb-body" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/body-restoration/">
+      <span class="ss-bubble-text">My body<br>feels tight</span>
+      <span class="ss-bubble-tag">Body Restoration</span>
+    </a>
+
+    <a class="ss-prod-bubble" id="ss-bb-breath" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/breath-regulation/">
+      <span class="ss-bubble-text">My mind<br>feels scattered</span>
+      <span class="ss-bubble-tag">Breath Regulation</span>
+    </a>
+
+    <a class="ss-prod-bubble" id="ss-bb-inner" href="https://mysoulstudiopeacewithin-cedgv.wpcomstaging.com/inner-stillness/">
+      <span class="ss-bubble-text">I can't<br>relax</span>
+      <span class="ss-bubble-tag">Inner Stillness</span>
+    </a>
   </div>
 </section>
 
@@ -506,16 +585,13 @@
       convolver.buffer = reverbBuf;
       const isShort = (key === 'hold' || key === 'long exhale');
       const voiceGain = isShort ? 5.5 : 3.2;
-      const dryGain = audioCtx.createGain();
-      const wetGain = audioCtx.createGain();
+      const dryGain = audioCtx.createGain(); const wetGain = audioCtx.createGain();
       dryGain.gain.setValueAtTime(voiceGain, audioCtx.currentTime);
       wetGain.gain.setValueAtTime(0.9, audioCtx.currentTime);
-      const vg = audioCtx.createGain();
-      vg.gain.setValueAtTime(1.0, audioCtx.currentTime);
+      const vg = audioCtx.createGain(); vg.gain.setValueAtTime(1.0, audioCtx.currentTime);
       vg.connect(dryGain); vg.connect(convolver);
       convolver.connect(wetGain);
-      dryGain.connect(audioCtx.destination);
-      wetGain.connect(audioCtx.destination);
+      dryGain.connect(audioCtx.destination); wetGain.connect(audioCtx.destination);
       const v = audioCtx.createBufferSource();
       v.buffer = voiceBuffers[key]; v.loop = false; v.connect(vg);
       activeVoiceNodes.push(v);
@@ -535,9 +611,7 @@
 
   function stopAllVoices() {
     voicesStopped = true;
-    activeVoiceNodes.forEach(v => {
-      try { v.onended = null; v.stop(); } catch(e) {}
-    });
+    activeVoiceNodes.forEach(v => { try { v.onended = null; v.stop(); } catch(e) {} });
     activeVoiceNodes = [];
     if (gainNode && audioCtx) {
       gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
@@ -548,11 +622,8 @@
   function playSettle(cb) {
     if (!audioCtx || !settleBuffer) { setTimeout(cb, 5000); return; }
     try {
-      const sg = audioCtx.createGain();
-      sg.gain.setValueAtTime(1.2, audioCtx.currentTime);
-      sg.connect(audioCtx.destination);
-      const s = audioCtx.createBufferSource();
-      s.buffer = settleBuffer; s.loop = false; s.connect(sg);
+      const sg = audioCtx.createGain(); sg.gain.setValueAtTime(1.2, audioCtx.currentTime); sg.connect(audioCtx.destination);
+      const s = audioCtx.createBufferSource(); s.buffer = settleBuffer; s.loop = false; s.connect(sg);
       s.onended = cb; s.start(0);
     } catch(e) { setTimeout(cb, 5000); }
   }
@@ -582,11 +653,8 @@
     try {
       ambientConvolver = audioCtx.createConvolver();
       ambientConvolver.buffer = makeReverbBuffer(audioCtx, 3.5);
-      ambientWetGain = audioCtx.createGain();
-      ambientWetGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
-      gainNode.connect(ambientConvolver);
-      ambientConvolver.connect(ambientWetGain);
-      ambientWetGain.connect(audioCtx.destination);
+      ambientWetGain = audioCtx.createGain(); ambientWetGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+      gainNode.connect(ambientConvolver); ambientConvolver.connect(ambientWetGain); ambientWetGain.connect(audioCtx.destination);
     } catch(e) {}
   }
 
@@ -706,8 +774,7 @@
   skipBtn.addEventListener('click', function(e) {
     e.stopPropagation();
     stopAllVoices(); stopAudio(); hideTimer();
-    screen2.style.display = 'none';
-    screen1.style.display = 'none';
+    screen2.style.display = 'none'; screen1.style.display = 'none';
     showEnterScreen();
   });
 
@@ -735,8 +802,7 @@
     setTimeout(() => {
       runPrecue(function() {
         playSettle(function() {
-          screen1.style.display = 'none';
-          screen2.style.display = 'block';
+          screen1.style.display = 'none'; screen2.style.display = 'block';
           startTimer();
           setTimeout(() => { runCycle(); }, 600);
         });
@@ -752,11 +818,9 @@
     if (tapBtn) tapBtn.classList.add('pressed');
     if (audioCtx) {
       audioCtx.resume().then(() => {
-        setupAmbientReverb();
-        loadBell(); loadSettle(); loadVoices();
+        setupAmbientReverb(); loadBell(); loadSettle(); loadVoices();
         if (!sourceNode) playLoop();
-        fadeVolume(1.5, 1.0);
-        waitForAudioThenStart();
+        fadeVolume(1.5, 1.0); waitForAudioThenStart();
       });
     } else { startBreath(); }
   });
@@ -811,42 +875,106 @@
     enterEl.classList.add('visible'); initEnterShimmer();
   }
 
+  // ── initLanding: bubble orbit (Pulse / Resolution A) ──
   function initLanding() {
-    const now = new Date();
-    const ist = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 5.5 * 3600000);
-    const hour = ist.getHours();
-    let activeBtn;
-    if (hour >= 5 && hour < 11) activeBtn = document.getElementById('ss-btn-tight');
-    else if (hour >= 11 && hour < 17) activeBtn = document.getElementById('ss-btn-anxious');
-    else activeBtn = document.getElementById('ss-btn-low');
-    if (activeBtn) activeBtn.classList.add('ss-active');
-    document.querySelectorAll('.ss-landing-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const href = this.getAttribute('href');
-        this.classList.add('ss-tapped');
-        setTimeout(() => { window.location.assign(href); }, 400);
-      });
-    });
     const s1 = document.getElementById('ss-land-s1');
     const s2 = document.getElementById('ss-land-s2');
     const cue = document.getElementById('ss-land-cue');
     const backBtn = document.getElementById('ss-land-back');
+    const center = document.getElementById('ss-center-bubble');
+    const prods = document.querySelectorAll('.ss-prod-bubble');
     let advanced = false;
+    let productsRevealed = false;
+    let revealTimer = null;
+
+    const now = new Date();
+    const ist = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 5.5 * 3600000);
+    const hour = ist.getHours();
+    let activeProd;
+    if (hour >= 5 && hour < 11)       activeProd = document.getElementById('ss-bb-body');
+    else if (hour >= 11 && hour < 17) activeProd = document.getElementById('ss-bb-breath');
+    else                               activeProd = document.getElementById('ss-bb-inner');
+
+    function drawSpokes() {
+      const svg = document.getElementById('ss-spokes');
+      if (!svg || !center) return;
+      svg.innerHTML = '';
+      const svgRect = svg.getBoundingClientRect();
+      const cRect = center.getBoundingClientRect();
+      const cx = cRect.left + cRect.width / 2 - svgRect.left;
+      const cy = cRect.top + cRect.height / 2 - svgRect.top;
+      prods.forEach((prod, i) => {
+        const pRect = prod.getBoundingClientRect();
+        const px = pRect.left + pRect.width / 2 - svgRect.left;
+        const py = pRect.top + pRect.height / 2 - svgRect.top;
+        const len = Math.hypot(px - cx, py - cy);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+        line.setAttribute('x2', px); line.setAttribute('y2', py);
+        line.setAttribute('stroke', 'rgba(200,169,110,0.28)');
+        line.setAttribute('stroke-width', '0.7');
+        line.setAttribute('fill', 'none');
+        line.style.strokeDasharray = len;
+        line.style.strokeDashoffset = len;
+        svg.appendChild(line);
+        setTimeout(() => {
+          line.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.4,0,0.6,1)';
+          line.style.strokeDashoffset = 0;
+        }, 60 + i * 170);
+      });
+    }
+
+    function revealProducts() {
+      if (productsRevealed) return;
+      productsRevealed = true;
+      if (revealTimer) { clearTimeout(revealTimer); revealTimer = null; }
+      drawSpokes();
+      prods.forEach((b, i) => {
+        setTimeout(() => {
+          b.classList.add('revealed');
+          if (b === activeProd) b.classList.add('ss-active');
+        }, i * 150);
+      });
+    }
+
+    function initBubbles() {
+      if (!center) return;
+      center.classList.add('alive');
+      revealTimer = setTimeout(revealProducts, 2000);
+      center.addEventListener('mouseenter', function() {
+        clearTimeout(revealTimer); revealProducts();
+      });
+      center.addEventListener('touchstart', function(e) {
+        e.stopPropagation(); clearTimeout(revealTimer); revealProducts();
+      }, { passive: true });
+      prods.forEach(bubble => {
+        bubble.addEventListener('click', function(e) {
+          e.preventDefault();
+          const dest = this.getAttribute('href');
+          if (!dest) return;
+          this.classList.add('ss-tapped');
+          setTimeout(() => { window.location.assign(dest); }, 380);
+        });
+      });
+    }
+
     function advanceToS2() {
       if (advanced) return;
       advanced = true;
       s1.classList.add('exit');
-      setTimeout(() => { s2.classList.add('enter'); }, 80);
+      setTimeout(() => { s2.classList.add('enter'); setTimeout(initBubbles, 450); }, 80);
     }
+
     function backToS1() {
       if (!advanced) return;
       advanced = false;
       s2.classList.remove('enter');
       setTimeout(() => { s1.classList.remove('exit'); }, 80);
     }
+
     if (cue) cue.addEventListener('click', advanceToS2);
     if (backBtn) backBtn.addEventListener('click', backToS1);
+
     const landing = document.getElementById('ss-landing');
     let touchStartY = 0;
     landing.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; }, { passive: true });
