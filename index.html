@@ -879,7 +879,8 @@
     function step() {
       if (i < letters.length) {
         letters[i].classList.add('lit');
-        setTimeout(() => letters[i].classList.remove('lit'), 600);
+        const idx = i;
+        setTimeout(() => letters[idx].classList.remove('lit'), 600);
         i++; setTimeout(step, 80);
       } else { setTimeout(() => runLetterShimmer(el), 1800); }
     }
