@@ -144,12 +144,11 @@
     display: none;
     position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(14px, 4vw, 17px);
+    font-size: clamp(12px, 3.5vw, 15px);
     font-weight: 400; font-style: italic; letter-spacing: 0.2em;
-    color: rgba(200,169,110,1); cursor: pointer;
-    text-shadow: 0 0 16px rgba(200,169,110,0.35);
+    color: rgba(210,200,182,0.8); cursor: pointer;
     opacity: 0; transition: opacity 1.2s ease;
-    z-index: 999999; border-bottom: 1px solid rgba(200,169,110,0.6);
+    z-index: 999999; border-bottom: 1px solid rgba(210,200,182,0.45);
     padding-bottom: 3px; white-space: nowrap;
   }
 
@@ -201,64 +200,7 @@
     z-index: 1;
   }
 
-  /* ── ss-land-s1 (unchanged) ── */
-  #ss-land-s1 {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 2; display: flex; flex-direction: column; align-items: center;
-    padding: 52px 32px 88px;
-    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.85s ease;
-  }
-  #ss-land-s1.exit { transform: translateY(-28%); opacity: 0; pointer-events: none; }
-
-  #ss-landing-header {
-    width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: center;
-    opacity: 0; animation: ss-fade-up 1.2s ease 0.3s forwards; padding-top: 8px;
-  }
-
-  #ss-landing-title {
-    font-size: clamp(30px, 8.5vw, 42px); font-weight: 600; font-style: italic; color: #f0ece0;
-    letter-spacing: 0.08em; text-shadow: 0 0 30px rgba(200,169,110,0.4), 0 2px 12px rgba(0,0,0,0.6);
-  }
-
-  #ss-landing-title sup, .ss-landing-para sup {
-    font-size: 0.45em; vertical-align: super; letter-spacing: 0; opacity: 0.7; font-style: normal;
-  }
-
-  #ss-landing-body {
-    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; gap: 14px; width: 100%; max-width: 480px; padding-bottom: 72px;
-  }
-
-  .ss-landing-para { opacity: 0; transform: translateY(12px); }
-  .ss-landing-para:nth-child(1) { animation: ss-fade-up 1.2s ease 0.7s forwards; }
-  .ss-landing-para:nth-child(2) { animation: ss-fade-up 1.2s ease 1.2s forwards; }
-  .ss-landing-para:nth-child(3) { animation: ss-fade-up 1.2s ease 1.7s forwards; }
-  .ss-landing-para p .gold { color: #c8a96e; }
-
-  .ss-landing-para p {
-    font-size: clamp(17px, 4.8vw, 22px); font-weight: 300; line-height: 1.78;
-    color: #f0ece0; text-shadow: 0 1px 6px rgba(0,0,0,0.5);
-  }
-  .ss-landing-para p em { font-style: italic; color: #c8a96e; }
-
-  #ss-land-cue {
-    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    font-size: clamp(11px, 3vw, 13px); font-weight: 300; font-style: italic;
-    letter-spacing: 0.22em; color: rgba(200,169,110,0.65);
-    cursor: pointer; white-space: nowrap;
-    opacity: 0; animation: ss-fade-up 1.2s ease 2.2s forwards;
-  }
-
-  #ss-land-cue-arrow {
-    width: 1px; height: 22px;
-    background: linear-gradient(to top, rgba(200,169,110,0.7), transparent);
-    animation: ss-cue-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes ss-cue-pulse { 0%,100%{ opacity: 0.4 } 50%{ opacity: 1 } }
-
-  /* ── ss-land-s2 — Bubble orbit (Pulse / Resolution A) ── */
+  /* ── ss-land-s2 — Bubble orbit (single frame) ── */
   #ss-land-s2 {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 2;
@@ -266,21 +208,6 @@
     transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
   }
   #ss-land-s2.enter { transform: translateY(0); }
-
-  #ss-land-back {
-    position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
-    font-size: clamp(11px, 3vw, 13px); font-weight: 300; font-style: italic;
-    letter-spacing: 0.22em; color: rgba(200,169,110,0.5);
-    cursor: pointer; white-space: nowrap;
-    opacity: 0; transition: opacity 0.6s ease 1s; z-index: 20;
-  }
-  #ss-land-s2.enter #ss-land-back { opacity: 1; }
-  #ss-land-back-arrow {
-    width: 1px; height: 18px;
-    background: linear-gradient(to bottom, rgba(200,169,110,0.7), transparent);
-    animation: ss-cue-pulse 2s ease-in-out infinite;
-  }
 
   #ss-spokes {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -436,34 +363,8 @@
   <video id="ss-landing-video" src="https://videos.files.wordpress.com/OukEtrl8/home-banner-video.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture x-webkit-airplay="deny"></video>
   <div id="ss-landing-overlay"></div>
 
-  <div id="ss-land-s1">
-    <header id="ss-landing-header">
-      <div id="ss-landing-title">Soul Studio<span class="tm-h">™</span></div>
-    </header>
-    <div id="ss-landing-body">
-      <div class="ss-landing-para">
-        <p>At Soul Studio<span class="tm">™</span>, <em>Peace Within</em> is not another target — it's the polestar that guides our everyday lives. Lasting peace reveals itself in the communion of body, breath & mind — with awareness as the synchronising tool.</p>
-      </div>
-      <div class="ss-landing-para">
-        <p>Awareness is built by training attention — deliberately, repeatedly. In the attention-economy today, that raw material is under constant attack: your attention is literally traded by many before you can turn it inward.</p>
-      </div>
-      <div class="ss-landing-para">
-        <p><span class="gold">Let's fight for what was always truly yours — your attention, your awareness & your inner peace.</span></p>
-      </div>
-    </div>
-    <div id="ss-land-cue">
-      <span>continue</span>
-      <div id="ss-land-cue-arrow"></div>
-    </div>
-  </div>
-
   <!-- ss-land-s2: Bubble orbit -->
   <div id="ss-land-s2">
-    <div id="ss-land-back">
-      <div id="ss-land-back-arrow"></div>
-      <span>back</span>
-    </div>
-
     <svg id="ss-spokes" xmlns="http://www.w3.org/2000/svg"></svg>
 
     <div id="ss-center-bubble">
@@ -509,6 +410,16 @@
     return;
   }
 
+  var testMode = window.location.search.indexOf('test') !== -1;
+
+  if (testMode) {
+    document.getElementById('ss-landing').style.display = 'flex';
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    initLanding();
+    return;
+  }
+
   document.getElementById('ss-gate').style.display = 'flex';
   document.getElementById('ss-landing').style.display = 'flex';
   document.getElementById('ss-timer').style.display = 'block';
@@ -523,7 +434,6 @@
   const breathWord = document.getElementById('ss-breath-word');
   const breathSub  = document.getElementById('ss-breath-sub');
   const skipBtn    = document.getElementById('ss-skip');
-  if (sessionStorage.getItem('ss_gate_seen')) { skipBtn.classList.add('visible'); }
 
   const SUBTEXTS = {
     'be breathless' : 'for a moment',
@@ -577,58 +487,12 @@
       gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
       gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
       gainNode.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.2);
-
-      // Longer, softer reverb tail — more spacious, less clinical
-      const convolver = audioCtx.createConvolver();
-      const reverbLen = audioCtx.sampleRate * 4.5;
-      const reverbBuf = audioCtx.createBuffer(2, reverbLen, audioCtx.sampleRate);
-      for (let ch = 0; ch < 2; ch++) {
-        const data = reverbBuf.getChannelData(ch);
-        for (let i = 0; i < reverbLen; i++) { data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 1.4); }
-      }
-      convolver.buffer = reverbBuf;
-
-      // Warmth: boost low-mids, roll off harsh highs
-      const warmFilter = audioCtx.createBiquadFilter();
-      warmFilter.type = 'lowshelf';
-      warmFilter.frequency.setValueAtTime(400, audioCtx.currentTime);
-      warmFilter.gain.setValueAtTime(4, audioCtx.currentTime);
-      const highCut = audioCtx.createBiquadFilter();
-      highCut.type = 'lowpass';
-      highCut.frequency.setValueAtTime(7000, audioCtx.currentTime);
-      highCut.Q.setValueAtTime(0.707, audioCtx.currentTime);
-
-      // Compressor — levels out dynamics across phrases and within each phrase
-      const compressor = audioCtx.createDynamicsCompressor();
-      compressor.threshold.setValueAtTime(-14, audioCtx.currentTime);
-      compressor.knee.setValueAtTime(10, audioCtx.currentTime);
-      compressor.ratio.setValueAtTime(4, audioCtx.currentTime);
-      compressor.attack.setValueAtTime(0.005, audioCtx.currentTime);
-      compressor.release.setValueAtTime(0.25, audioCtx.currentTime);
-
-      const isShort = (key === 'hold' || key === 'long exhale');
-      const voiceGain = isShort ? 5.5 : 3.2;
-      const dryGain = audioCtx.createGain();
-      const wetGain = audioCtx.createGain();
-      dryGain.gain.setValueAtTime(voiceGain, audioCtx.currentTime);
-      wetGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
-
-      // Fade-in envelope to avoid hard entry
+      const chain = makeVoiceChain();
+      chain.dryGain.gain.setValueAtTime(5.0, audioCtx.currentTime);
       const vg = audioCtx.createGain();
       vg.gain.setValueAtTime(0, audioCtx.currentTime);
       vg.gain.linearRampToValueAtTime(1.0, audioCtx.currentTime + 0.08);
-
-      // Chain: source → vg → warmFilter → highCut → dryGain → compressor → dest
-      //                                            → convolver → wetGain → dest
-      vg.connect(warmFilter);
-      warmFilter.connect(highCut);
-      highCut.connect(dryGain);
-      highCut.connect(convolver);
-      dryGain.connect(compressor);
-      compressor.connect(audioCtx.destination);
-      convolver.connect(wetGain);
-      wetGain.connect(audioCtx.destination);
-
+      vg.connect(chain.input);
       const v = audioCtx.createBufferSource();
       v.buffer = voiceBuffers[key]; v.loop = false; v.connect(vg);
       activeVoiceNodes.push(v);
@@ -656,11 +520,52 @@
     }
   }
 
+  function makeVoiceChain() {
+    const warmFilter = audioCtx.createBiquadFilter();
+    warmFilter.type = 'lowshelf';
+    warmFilter.frequency.setValueAtTime(400, audioCtx.currentTime);
+    warmFilter.gain.setValueAtTime(4, audioCtx.currentTime);
+    const highCut = audioCtx.createBiquadFilter();
+    highCut.type = 'lowpass';
+    highCut.frequency.setValueAtTime(7000, audioCtx.currentTime);
+    highCut.Q.setValueAtTime(0.707, audioCtx.currentTime);
+    const compressor = audioCtx.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(-20, audioCtx.currentTime);
+    compressor.knee.setValueAtTime(10, audioCtx.currentTime);
+    compressor.ratio.setValueAtTime(3, audioCtx.currentTime);
+    compressor.attack.setValueAtTime(0.015, audioCtx.currentTime);
+    compressor.release.setValueAtTime(0.3, audioCtx.currentTime);
+    const reverbLen = audioCtx.sampleRate * 4.5;
+    const reverbBuf = audioCtx.createBuffer(2, reverbLen, audioCtx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const data = reverbBuf.getChannelData(ch);
+      for (let i = 0; i < reverbLen; i++) { data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 1.4); }
+    }
+    const convolver = audioCtx.createConvolver();
+    convolver.buffer = reverbBuf;
+    const dryGain = audioCtx.createGain();
+    const wetGain = audioCtx.createGain();
+    wetGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+    warmFilter.connect(highCut);
+    highCut.connect(dryGain);
+    highCut.connect(convolver);
+    dryGain.connect(compressor);
+    compressor.connect(audioCtx.destination);
+    convolver.connect(wetGain);
+    wetGain.connect(audioCtx.destination);
+    return { input: warmFilter, dryGain };
+  }
+
   function playSettle(cb) {
     if (!audioCtx || !settleBuffer) { setTimeout(cb, 5000); return; }
     try {
-      const sg = audioCtx.createGain(); sg.gain.setValueAtTime(1.2, audioCtx.currentTime); sg.connect(audioCtx.destination);
-      const s = audioCtx.createBufferSource(); s.buffer = settleBuffer; s.loop = false; s.connect(sg);
+      const chain = makeVoiceChain();
+      chain.dryGain.gain.setValueAtTime(1.4, audioCtx.currentTime);
+      const vg = audioCtx.createGain();
+      vg.gain.setValueAtTime(0, audioCtx.currentTime);
+      vg.gain.linearRampToValueAtTime(1.0, audioCtx.currentTime + 0.08);
+      vg.connect(chain.input);
+      const s = audioCtx.createBufferSource(); s.buffer = settleBuffer; s.loop = false; s.connect(vg);
       s.onended = cb; s.start(0);
     } catch(e) { setTimeout(cb, 5000); }
   }
@@ -803,7 +708,6 @@
   }
 
   function endGate() {
-    sessionStorage.setItem('ss_gate_seen', '1');
     stopAudio(); hideTimer();
     setTimeout(() => { ringBell(); }, 400);
     setTimeout(() => { showEnterScreen(); }, 2200);
@@ -811,7 +715,6 @@
 
   skipBtn.addEventListener('click', function(e) {
     e.stopPropagation();
-    sessionStorage.setItem('ss_gate_seen', '1');
     stopAllVoices(); stopAudio(); hideTimer();
     screen2.style.display = 'none'; screen1.style.display = 'none';
     showEnterScreen();
@@ -879,8 +782,7 @@
     function step() {
       if (i < letters.length) {
         letters[i].classList.add('lit');
-        const idx = i;
-        setTimeout(() => letters[idx].classList.remove('lit'), 600);
+        setTimeout(() => letters[i].classList.remove('lit'), 600);
         i++; setTimeout(step, 80);
       } else { setTimeout(() => runLetterShimmer(el), 1800); }
     }
@@ -915,17 +817,11 @@
     enterEl.classList.add('visible'); initEnterShimmer();
   }
 
-  // ── initLanding: bubble orbit (Pulse / Resolution A) ──
+  // ── initLanding: bubble orbit (single frame) ──
   function initLanding() {
-    const s1 = document.getElementById('ss-land-s1');
-    const s2 = document.getElementById('ss-land-s2');
-    const cue = document.getElementById('ss-land-cue');
-    const backBtn = document.getElementById('ss-land-back');
+    const s2     = document.getElementById('ss-land-s2');
     const center = document.getElementById('ss-center-bubble');
-    const prods = document.querySelectorAll('.ss-prod-bubble');
-    let advanced = false;
-    let productsRevealed = false;
-    let revealTimer = null;
+    const prods  = document.querySelectorAll('.ss-prod-bubble');
 
     const now = new Date();
     const ist = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 5.5 * 3600000);
@@ -934,6 +830,9 @@
     if (hour >= 5 && hour < 11)       activeProd = document.getElementById('ss-bb-body');
     else if (hour >= 11 && hour < 17) activeProd = document.getElementById('ss-bb-breath');
     else                               activeProd = document.getElementById('ss-bb-inner');
+
+    let productsRevealed = false;
+    let revealTimer = null;
 
     function drawSpokes() {
       const svg = document.getElementById('ss-spokes');
@@ -998,31 +897,8 @@
       });
     }
 
-    function advanceToS2() {
-      if (advanced) return;
-      advanced = true;
-      s1.classList.add('exit');
-      setTimeout(() => { s2.classList.add('enter'); setTimeout(initBubbles, 450); }, 80);
-    }
-
-    function backToS1() {
-      if (!advanced) return;
-      advanced = false;
-      s2.classList.remove('enter');
-      setTimeout(() => { s1.classList.remove('exit'); }, 80);
-    }
-
-    if (cue) cue.addEventListener('click', advanceToS2);
-    if (backBtn) backBtn.addEventListener('click', backToS1);
-
-    const landing = document.getElementById('ss-landing');
-    let touchStartY = 0;
-    landing.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; }, { passive: true });
-    landing.addEventListener('touchend', function(e) {
-      const dy = touchStartY - e.changedTouches[0].clientY;
-      if (!advanced && dy > 40) advanceToS2();
-      else if (advanced && dy < -40) backToS1();
-    }, { passive: true });
+    s2.classList.add('enter');
+    setTimeout(initBubbles, 450);
   }
 
   setupAudio();
